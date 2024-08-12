@@ -1,0 +1,139 @@
+#retrieves csv file
+with open("weather_data.csv") as data_file:
+#saves csv as "data"
+    data = data_file.readlines()
+    print(data)
+
+#import csv files
+import csv
+
+#downlading the csv file with the csv package
+with open("weather_data.csv") as data_file:
+    data = csv.reader(data_file)
+
+    #to loop through the csv file
+    for row in data:
+        print(row)
+
+#downlading the csv file with the csv package
+with open("weather_data.csv") as data_file:
+    data = csv.reader(data_file)
+
+#extract all the tempuratures
+    temperatures = []
+    for row in data:
+        if row[1] != "temp": #need if statement to get the first index (0,1,...), then find where it doesn't equal temp, because temp is part of the index
+            temperatures.append(int(row[1]))
+    print(temperatures)
+
+#working with pandas
+
+#import pandas
+import pandas
+
+#reading in csv via pandas
+data = pandas.read_csv("weather_data.csv")
+print(data)
+
+#to print out only the temperatures. All you have to do is mention the column name, on the first row
+print(data["temp"])
+
+#to see the data structure | Used in pandas
+print(type(data))
+
+#to convert data into a dictionary
+data_dict = data.to_dict()
+print(data_dict)
+
+#converting the panda series of tempturatures into a list by calling the series first, then making them into a list
+temp_list = data["temp"].to_list()
+print(temp_list)
+
+#finding the length of the list
+temp_list = data["temp"].to_list()
+print(len(temp_list))
+
+#get the average temperature
+average = sum(temp_list) / len(temp_list)
+print(average)
+
+#getting average using pandas
+print(data["temp"].mean())
+
+#getting the maximmum value
+print(data["temp"].max())
+
+#ways to get the columns, case sensitive
+print(data["condition"])
+
+#second way to get condition column
+print(data.condition)
+
+#to get a row of data. You are checking the row where it's Monday since Monday is unique to all of the rows
+print(data[data.day == "Monday"])
+
+#get the row with the maximum temperature. First check the row where it's maxed, from the list
+print(data[data["temp"] == data["temp"].max()])
+
+#another way of getting the row with the maximum temperature
+print(data[data.temp == data.temp.max()])
+
+#find a particular row's condition. Begin by making an object out of the dataframe. "= data[]" is the dataframe. Now "data.day == "Monday"" is searching the dataframe under the column "day" where it is "Monday." Now that we named our variable "monday," we just do ".condition" to get the attribute
+monday = data[data.day == "Monday"]
+print(monday.condition)
+
+#to get Monday's temperature in farenheit
+
+#choosing the first temperature value by naming the first value in the row temp
+monday_temp = monday.temp[0]
+
+#make an object where you use the formula converter
+monday_temp_F = monday_temp * 9/5 + 32
+print(monday_temp_F)
+
+#create a dataframe from the dictionary
+
+#call pandas libray by "pandas." then do the "DataFrame" class by "DataFrame()"
+#initialize class with data which is "data_dict"
+data = pandas.DataFrame(data_dict)
+print(data)
+
+#to convert dataframe to a csv file
+data = pandas.DataFrame(data_dict)
+
+#the initiation is the path where you want to save the file. CSV file will be added to the right under "Day 25 Start" file
+data.to_csv("new_data.csv")
+
+#reading in squirrel dataset
+import pandas
+data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20240808.csv")
+
+#get column "Primary Fur Color", then find where all rows that have "Gray" by doing "== "Gray""
+gray_squirrels = data[data["Primary Fur Color"] == "Gray"]
+print(gray_squirrels)
+
+#get how many gray squirrels
+gray_squirrels_count = len(data[data["Primary Fur Color"] == "Gray"])
+print(gray_squirrels_count)
+
+#get the amount of cinnamon squirrels
+red_squirrels_count = len(data[data["Primary Fur Color"] == "Cinnamon"])
+print(red_squirrels_count)
+
+#get the amount of black squirrels
+black_squirrels_count = len(data[data["Primary Fur Color"] == "Black"])
+print(black_squirrels_count)
+
+#make the dataframe for fur colors
+
+#make the dictionary
+data_dist = {
+    "Fur Color": ["Gray", "Cinnamon", "Black"], #the first value is color
+    "Count": [gray_squirrels_count, red_squirrels_count, black_squirrels_count] #make the second value which is the count of each color
+}
+
+#turn dictionary into dataframe | retreive the "DataFrame" class form pandas, and initialize it with the dictionary. Then save it as "df"
+df = pandas.DataFrame(data_dist)
+df.to_csv("squirrel_count.csv")
+
+
